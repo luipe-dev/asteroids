@@ -1,8 +1,10 @@
 import pygame
+import sys
 from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from circleshape import CircleShape
 
 def main():
     pygame.init()
@@ -31,6 +33,10 @@ def main():
                 return
 
         updatable.update(dt) # move player's position and spawn asteroids
+        for asteroid in asteroids:
+            if asteroid.collision(player):
+                print("Game over!")
+                sys.exit()
         screen.fill("black") # generate black screen
         for obj in drawable:
             obj.draw(screen) # render the player on the screen
