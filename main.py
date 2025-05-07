@@ -8,9 +8,7 @@ def main():
     clock = pygame.time.Clock()
 
     # Initiate Player Object
-    x = SCREEN_WIDTH / 2
-    y = SCREEN_HEIGHT / 2
-    player = Player(x, y, PLAYER_RADIUS)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     dt = 0
 
@@ -20,6 +18,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
+        player.update(dt)
         screen.fill("black") # generate black screen
         player.draw(screen) # render the player on the screen
         pygame.display.flip() #flip screen
