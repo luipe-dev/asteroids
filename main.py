@@ -7,10 +7,14 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
 
+    dt = 0
+
+    updatable = pygame.sprite.Group() #group for all objects that can be updated
+    drawable = pygame.sprite.Group() # group for all objects than can be drawn
+    Player.containers = (updatable, drawable)
+
     # Initiate Player Object
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-
-    dt = 0
 
     # Game Loop
     while True:
@@ -18,9 +22,10 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
-        player.update(dt)
+        updatable.update(dt) # move player's position
         screen.fill("black") # generate black screen
-        player.draw(screen) # render the player on the screen
+        for obj in drawable:
+            obj.draw(screen) # render the player on the screen
         pygame.display.flip() #flip screen
 
         dt = clock.tick(60) / 1000 #limit framerate to 60 FPS
