@@ -1,5 +1,6 @@
 import pygame
 from circleshape import CircleShape
+from shot import Shot
 from constants import *
 
 #Class for player object
@@ -37,8 +38,20 @@ class Player(CircleShape):
             self.rotate(-dt)
         if keys[pygame.K_d]:
             self.rotate(dt)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
 
 
     #method for rotating triangle left/right
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
+    
+    #method to shoot bullets
+    def shoot(self):
+        # Use the player's position (self.position) to create the shot
+        shot = Shot(self.position.x, self.position.y)
+        # Create a velocity vector (0,1) which points down
+        # Then rotate it to match the player's rotation
+        shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation)
+        # Scale up the velocity to the desired speed
+        shot.velocity *= PLAYER_SHOOT_SPEED
