@@ -43,7 +43,7 @@ def main():
             for shot in shots:
                 if asteroid.collision(shot):
                     shot.kill()
-                    asteroid.kill()
+                    asteroid.split()
         screen.fill("black") # generate black screen
         for obj in drawable:
             obj.draw(screen) # render the player on the screen
