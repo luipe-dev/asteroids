@@ -8,6 +8,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        self.shoot_timer = 0
 
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
@@ -29,6 +30,8 @@ class Player(CircleShape):
     #method that calls rotate or move method based on user input
     def update(self, dt):
         keys = pygame.key.get_pressed()
+        self.shoot_timer -= dt
+        
 
         if keys[pygame.K_w]:
             self.move(dt)
@@ -41,13 +44,15 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             self.shoot()
 
-
     #method for rotating triangle left/right
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
     
     #method to shoot bullets
     def shoot(self):
+        if self.shoot_timer > 0:
+            return
+        self.shoot_timer = PLAYER_SHOOT_COOLDOWN
         # Use the player's position (self.position) to create the shot
         shot = Shot(self.position.x, self.position.y)
         # Create a velocity vector (0,1) which points down
