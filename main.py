@@ -34,11 +34,16 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        updatable.update(dt) # move player's position, shoot spawn asteroids
+        updatable.update(dt) # move player's position, shoot, spawn asteroids
         for asteroid in asteroids:
             if asteroid.collision(player):
                 print("Game over!")
                 sys.exit()
+
+            for shot in shots:
+                if asteroid.collision(shot):
+                    shot.kill()
+                    asteroid.kill()
         screen.fill("black") # generate black screen
         for obj in drawable:
             obj.draw(screen) # render the player on the screen
